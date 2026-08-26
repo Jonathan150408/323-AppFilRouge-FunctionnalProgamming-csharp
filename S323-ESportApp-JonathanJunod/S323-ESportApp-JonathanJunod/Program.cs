@@ -8,16 +8,23 @@ namespace S323_ESportApp_JonathanJunod
         static void Main(string[] args)
         {
             // --------------------------
-            // Import des données
+            // Generate the history for Raphael
+            // --------------------------
+            var raphaelGenerated = DataSeries<Cs2Match>.From(
+                MatchGenerator.GenerateCs2("Raphaël", 20)
+            );
+            Console.WriteLine(raphaelGenerated.Count); // 20
+
+            // --------------------------
+            // Import data
             // --------------------------
             var valorant = DataSeries<ValorantMatch>.FromCsv("Data/valorant.csv", ParseValorant);
             var cs2 = DataSeries<Cs2Match>.FromCsv("Data/cs2.csv", ParseCs2);
             var lol = DataSeries<LolMatch>.FromCsv("Data/lol.csv", ParseLol);
 
             // --------------------------
-            // Gestion des flags
+            // Handle flags
             // --------------------------
-
             if (args.Length == 0 || args.Contains("--help"))
             {
                 Console.WriteLine("Usage: EsportApp [--game valorant|cs2|lol]");
