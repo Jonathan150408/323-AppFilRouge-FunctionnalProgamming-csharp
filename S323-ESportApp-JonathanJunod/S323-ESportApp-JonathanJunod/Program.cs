@@ -10,10 +10,15 @@ namespace S323_ESportApp_JonathanJunod
             // --------------------------
             // Generate the history for Raphael
             // --------------------------
-            var raphaelGenerated = DataSeries<Cs2Match>.From(
-                MatchGenerator.GenerateCs2("Raphaël", 20)
-            );
-            Console.WriteLine(raphaelGenerated.Count); // 20
+            var raphaelGenerated = MatchGenerator.GenerateCs2("Raphaël", 20);
+            Console.WriteLine(raphaelGenerated.DataPoints.Count()); // 20
+
+            //Func<Cs2Match, bool> isValid = m =>
+            //    m.Kills + m.Assists <= 50 &&
+            //    m.Deaths >= 1;
+
+            //var raphaelValid = raphaelGenerated.Filter(isValid);
+            //Console.WriteLine($"Avant : {raphaelGenerated.Count}, après : {raphaelValid.Count}");
 
             // --------------------------
             // Import data
@@ -36,11 +41,11 @@ namespace S323_ESportApp_JonathanJunod
                 game = args[Array.IndexOf(args, "--game") + 1].ToLower();
 
             if (game == null || game == "valorant")
-                Console.WriteLine($"Valorant : {valorant.Count} matchs");
+                Console.WriteLine($"Valorant : {valorant.DataPoints.Count()} matchs");
             if (game == null || game == "cs2")
-                Console.WriteLine($"CS2      : {cs2.Count} matchs");
+                Console.WriteLine($"CS2      : {cs2.DataPoints.Count()} matchs");
             if (game == null || game == "lol")
-                Console.WriteLine($"LoL      : {lol.Count} matchs");
+                Console.WriteLine($"LoL      : {lol.DataPoints.Count()} matchs");
         }
     }
 }
