@@ -8,17 +8,12 @@ namespace S323_ESportApp_JonathanJunod
         static void Main(string[] args)
         {
             // --------------------------
-            // Generate the history for Raphael
+            // Program's variables
             // --------------------------
-            var raphaelGenerated = MatchGenerator.GenerateCs2("Raphaël", 20);
-            Console.WriteLine(raphaelGenerated.DataPoints.Count()); // 20
-
-            //Func<Cs2Match, bool> isValid = m =>
-            //    m.Kills + m.Assists <= 50 &&
-            //    m.Deaths >= 1;
-
-            //var raphaelValid = raphaelGenerated.Filter(isValid);
-            //Console.WriteLine($"Avant : {raphaelGenerated.Count}, après : {raphaelValid.Count}");
+            List<string> PlayersToGenerate = [];
+            List<DataSeries<Cs2Match>> CS2Matches = [];
+            List<DataSeries<LolMatch>> LolMatches = [];
+            List<DataSeries<ValorantMatch>> valorantMatches = [];
 
             // --------------------------
             // Import data
@@ -30,22 +25,65 @@ namespace S323_ESportApp_JonathanJunod
             // --------------------------
             // Handle flags
             // --------------------------
+            bool hasFlag = true;
+            string? game = null;
+            string? generationRequest = null;
+
             if (args.Length == 0 || args.Contains("--help"))
             {
-                Console.WriteLine("Usage: EsportApp [--game valorant|cs2|lol]");
-                return;
+                Console.WriteLine("Usage: EsportApp [--game valorant|cs2|lol] [--generate player|all]");
+                hasFlag = false;
             }
 
-            string? game = null;
-            if (args.Contains("--game"))
-                game = args[Array.IndexOf(args, "--game") + 1].ToLower();
+            if (hasFlag)
+            {
+                // --game
+                if (args.Contains("--game"))
+                {
+                    game = args[Array.IndexOf(args, "--game") + 1].ToLower();
+                }
+                if (game == null || game == "valorant")
+                    Console.WriteLine($"Valorant : {valorant.DataPoints.Count()} matchs");
+                if (game == null || game == "cs2")
+                    Console.WriteLine($"CS2      : {cs2.DataPoints.Count()} matchs");
+                if (game == null || game == "lol")
+                    Console.WriteLine($"LoL      : {lol.DataPoints.Count()} matchs");
 
-            if (game == null || game == "valorant")
-                Console.WriteLine($"Valorant : {valorant.DataPoints.Count()} matchs");
-            if (game == null || game == "cs2")
-                Console.WriteLine($"CS2      : {cs2.DataPoints.Count()} matchs");
-            if (game == null || game == "lol")
-                Console.WriteLine($"LoL      : {lol.DataPoints.Count()} matchs");
+                // --generate
+                if (args.Contains("--generate"))
+                {
+                    generationRequest = args[Array.IndexOf(args, "--generate") + 1].ToLower();
+                    // Fill in the list with all generation request
+                    PlayersToGenerate = (generationRequest == "all" || generationRequest == null) ? ["Raphael", "Kiara", "Dylan", "Noé"] : [generationRequest];
+
+                    PlayersToGenerate.ForEach(p =>
+                    {
+                        CS2Matches.Add(MatchGenerator.GenerateCs2(p, 10));
+                        LolMatches.Add(MatchGenerator.GenerateLol(p, 10));
+                        valorantMatches.Add(MatchGenerator.GenerateValorant(p, 10));
+                    });
+                }
+
+            }
+
+            // --------------------------
+            // Export to CSV
+            // --------------------------
+            string currDate = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+            Directory.CreateDirectory("./Data/Exports");
+
+            CS2Matches.ForEach(m =>
+            {
+                CSVExporter.ExportCs2(m, $"/Data/Exports/{currDate}CS2.csv")
+            });
+            LolMatches.ForEach(m =>
+            {
+                CSVExporter.ExportLol(m, $"/Data/Exports/{currDate}Lol.csv")
+            });
+            CS2Matches.ForEach(m =>
+            {
+                CSVExporter.ExportCs2(m, $"/Data/Exports/{currDate}CS2.csv")
+            });
         }
     }
 }
