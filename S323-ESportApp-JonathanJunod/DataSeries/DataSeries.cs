@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,5 +63,8 @@ namespace DataSeries
             => _data.Any(dp => predicate(dp.Value));
         public bool AllMatch(Func<T, bool> predicate)
             => _data.All(dp => predicate(dp.Value));
+
+        public DataSeries<TResult> Transform<TResult>(Func<T, TResult> mapper)
+            => DataSeries<TResult>.From(_data.Select(dp => new DataPoint<TResult>( dp.Timestamp, mapper(dp.Value))));
     }
 }

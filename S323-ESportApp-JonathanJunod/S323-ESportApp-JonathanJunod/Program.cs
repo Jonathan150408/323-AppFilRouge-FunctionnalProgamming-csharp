@@ -58,13 +58,22 @@ namespace S323_ESportApp_JonathanJunod
             );
 
             // --------------------------
-            // Filter
+            // Q/A with HasAny and AllMatch
             // --------------------------
             // Léa a-t-elle au moins un match avec plus de 20 kills ?
             Console.WriteLine($"Léa a-t-elle au moins un match avec plus de 20 kills ? : {valorantValid.HasAny(m => m.Kills > 20)}");
 
             // Tous les matchs de Noé ont-ils au moins 1 mort ?
             Console.WriteLine($"Tous les matchs de Noé ont-ils au moins 1 mort ? : {lolValid.AllMatch(m => m.Deaths >= 1)}");
+
+            // --------------------------
+            // Compute KDA ratio for Lea
+            // --------------------------
+            var kdaLea = valorant
+                .Filter(m => m.Player == "Léa")
+                .Transform(m => (m.Kills + m.Assists) / (double)(m.Deaths == 0 ? 1 : m.Deaths));
+            
+            Console.WriteLine("Ratio KDA Léa : " + string.Join(", ", kdaLea.Values.Select(v => v.ToString("F2"))));
 
             // --------------------------
             // Handle flags
