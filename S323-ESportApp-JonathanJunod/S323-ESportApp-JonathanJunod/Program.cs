@@ -86,11 +86,11 @@ namespace S323_ESportApp_JonathanJunod
                 {
                     game = args[Array.IndexOf(args, "--game") + 1].ToLower();
                 }
-                if (game == null || game == "valorant")
+                if (game == "all" || game == "valorant")
                     Console.WriteLine($"Valorant : {valorantValid.DataPoints.Count()} matchs");
-                if (game == null || game == "cs2")
+                if (game == "all" || game == "cs2")
                     Console.WriteLine($"CS2      : {cs2Valid.DataPoints.Count()} matchs");
-                if (game == null || game == "lol")
+                if (game == "all" || game == "lol")
                     Console.WriteLine($"LoL      : {lolValid.DataPoints.Count()} matchs");
 
                 // --generate
