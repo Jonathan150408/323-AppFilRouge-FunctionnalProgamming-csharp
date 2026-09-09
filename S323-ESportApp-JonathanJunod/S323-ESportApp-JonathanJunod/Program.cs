@@ -99,6 +99,13 @@ namespace S323_ESportApp_JonathanJunod
             Console.WriteLine("Ratio KDA normalizé Léa : " + string.Join(", ", kdaLeaNorm.Select(v => v.ToString("F1"))));
 
             // --------------------------
+            // Smoothing..?
+            // --------------------------
+            int window = 3;
+            var smoothed = kdaLea.Smooth(window);
+            Console.WriteLine(smoothed);
+
+            // --------------------------
             // Handle flags
             // --------------------------
             bool hasFlag = true;

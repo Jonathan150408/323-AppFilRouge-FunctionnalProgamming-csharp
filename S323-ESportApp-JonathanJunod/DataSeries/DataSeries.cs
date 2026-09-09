@@ -81,5 +81,23 @@ namespace DataSeries
             return kda.Select(v => (v - min) / (max - min)).ToList();
         }
 
+
+        /// <summary>
+        /// ???
+        /// </summary>
+        /// <param name="windowSize"></param>
+        /// <returns></returns>
+        public List<double> Smooth(int windowSize)
+        {
+            var values = _data.Cast<double>().ToList();
+
+            return Enumerable.Range(0, values.Count)
+                    .Select(i =>
+                    {
+                        var window = values.Skip(Math.Max(0, i - windowSize + 1)).Take(windowSize);
+                        return window.Average();
+                    })
+                    .ToList();
+        }
     }
 }
