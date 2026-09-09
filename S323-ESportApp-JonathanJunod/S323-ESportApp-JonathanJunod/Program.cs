@@ -15,12 +15,12 @@ namespace S323_ESportApp_JonathanJunod
             List<DataSeries<LolMatch>> LolMatches = [];
             List<DataSeries<ValorantMatch>> valorantMatches = [];
 
-            // --------------------------
-            // Import data
-            // --------------------------
-            var valorant = DataSeries<ValorantMatch>.FromCsv("Data/valorant.csv", ParseValorant);
-            var cs2 = DataSeries<Cs2Match>.FromCsv("Data/cs2.csv", ParseCs2);
-            var lol = DataSeries<LolMatch>.FromCsv("Data/lol.csv", ParseLol);
+            //// --------------------------
+            //// Import data
+            //// --------------------------
+            //var valorant = DataSeries<ValorantMatch>.FromCsv("Data/valorant.csv", ParseValorant);
+            //var cs2 = DataSeries<Cs2Match>.FromCsv("Data/cs2.csv", ParseCs2);
+            //var lol = DataSeries<LolMatch>.FromCsv("Data/lol.csv", ParseLol);
 
             // --------------------------
             // Handle flags
@@ -37,17 +37,17 @@ namespace S323_ESportApp_JonathanJunod
 
             if (hasFlag)
             {
-                // --game
-                if (args.Contains("--game"))
-                {
-                    game = args[Array.IndexOf(args, "--game") + 1].ToLower();
-                }
-                if (game == null || game == "valorant")
-                    Console.WriteLine($"Valorant : {valorant.DataPoints.Count()} matchs");
-                if (game == null || game == "cs2")
-                    Console.WriteLine($"CS2      : {cs2.DataPoints.Count()} matchs");
-                if (game == null || game == "lol")
-                    Console.WriteLine($"LoL      : {lol.DataPoints.Count()} matchs");
+                //// --game
+                //if (args.Contains("--game"))
+                //{
+                //    game = args[Array.IndexOf(args, "--game") + 1].ToLower();
+                //}
+                //if (game == null || game == "valorant")
+                //    Console.WriteLine($"Valorant : {valorant.DataPoints.Count()} matchs");
+                //if (game == null || game == "cs2")
+                //    Console.WriteLine($"CS2      : {cs2.DataPoints.Count()} matchs");
+                //if (game == null || game == "lol")
+                //    Console.WriteLine($"LoL      : {lol.DataPoints.Count()} matchs");
 
                 // --generate
                 if (args.Contains("--generate"))
@@ -70,19 +70,20 @@ namespace S323_ESportApp_JonathanJunod
             // Export to CSV
             // --------------------------
             string currDate = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-            Directory.CreateDirectory("./Data/Exports");
+            string workDir = Directory.GetCurrentDirectory();
+            Directory.CreateDirectory($"{workDir}/Data/Exports");
 
             CS2Matches.ForEach(m =>
             {
-                CSVExporter.ExportCs2(m, $"/Data/Exports/{currDate}CS2.csv")
+                CSVExporter.ExportCs2(m, $"{workDir}/Data/Exports/{currDate}CS2.csv");
             });
             LolMatches.ForEach(m =>
             {
-                CSVExporter.ExportLol(m, $"/Data/Exports/{currDate}Lol.csv")
+                CSVExporter.ExportLol(m, $"{workDir}/Data/Exports/{currDate}Lol.csv");
             });
             CS2Matches.ForEach(m =>
             {
-                CSVExporter.ExportCs2(m, $"/Data/Exports/{currDate}CS2.csv")
+                CSVExporter.ExportCs2(m, $"{workDir}/Data/Exports/{currDate}CS2.csv");
             });
         }
     }
