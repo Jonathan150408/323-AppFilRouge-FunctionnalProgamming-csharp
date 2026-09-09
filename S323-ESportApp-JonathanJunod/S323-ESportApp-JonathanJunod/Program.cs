@@ -58,6 +58,15 @@ namespace S323_ESportApp_JonathanJunod
             );
 
             // --------------------------
+            // Filter
+            // --------------------------
+            // Léa a-t-elle au moins un match avec plus de 20 kills ?
+            Console.WriteLine($"Léa a-t-elle au moins un match avec plus de 20 kills ? : {valorantValid.HasAny(m => m.Kills > 20)}");
+
+            // Tous les matchs de Noé ont-ils au moins 1 mort ?
+            Console.WriteLine($"Tous les matchs de Noé ont-ils au moins 1 mort ? : {lolValid.AllMatch(m => m.Deaths >= 1)}");
+
+            // --------------------------
             // Handle flags
             // --------------------------
             bool hasFlag = true;

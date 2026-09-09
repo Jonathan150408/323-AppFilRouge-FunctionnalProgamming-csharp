@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -55,5 +57,10 @@ namespace DataSeries
 
         public DataSeries<T> RemoveOutliers(Func<T, bool> isValid)
             => Filter(isValid);
+
+        public bool HasAny(Func<T, bool> predicate)
+            => _data.Any(dp => predicate(dp.Value));
+        public bool AllMatch(Func<T, bool> predicate)
+            => _data.All(dp => predicate(dp.Value));
     }
 }
