@@ -34,12 +34,13 @@ namespace S323_ESportApp_JonathanJunod
         public static LolMatch ParseLol(string[] cols) => new LolMatch(
             cols[1],
             cols[2],
-            int.Parse(cols[3]),
+            cols[3],
             int.Parse(cols[4]),
             int.Parse(cols[5]),
             int.Parse(cols[6]),
             int.Parse(cols[7]),
-            cols[8] == null
+            int.Parse(cols[8]),
+            cols[9] == null
         );
 
         /// <summary>

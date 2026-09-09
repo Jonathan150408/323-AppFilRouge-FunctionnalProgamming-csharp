@@ -61,6 +61,7 @@ namespace S323_ESportApp_JonathanJunod
                     new LolMatch(
                         player,                                 // Player
                         champion: champions[rng.Next(6)],       // Champion
+                        role: "Support",                    // Role <-- Fixe pour le moment
                         kills: rng.Next(10, 27),                // Kills
                         deaths: rng.Next(6, 17),                // Deaths
                         assists: rng.Next(7),                   // Assists

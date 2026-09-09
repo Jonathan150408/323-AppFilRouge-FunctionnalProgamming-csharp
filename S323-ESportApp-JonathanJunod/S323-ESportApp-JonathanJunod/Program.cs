@@ -15,12 +15,23 @@ namespace S323_ESportApp_JonathanJunod
             List<DataSeries<LolMatch>> LolMatches = [];
             List<DataSeries<ValorantMatch>> valorantMatches = [];
 
-            //// --------------------------
-            //// Import data
-            //// --------------------------
-            //var valorant = DataSeries<ValorantMatch>.FromCsv("Data/valorant.csv", ParseValorant);
-            //var cs2 = DataSeries<Cs2Match>.FromCsv("Data/cs2.csv", ParseCs2);
-            //var lol = DataSeries<LolMatch>.FromCsv("Data/lol.csv", ParseLol);
+            // --------------------------
+            // Import data
+            // --------------------------
+            var valorant = DataSeries<ValorantMatch>.FromCsv("Data/valorant.csv", ParseValorant);
+            var cs2 = DataSeries<Cs2Match>.FromCsv("Data/cs2.csv", ParseCs2);
+            var lol = DataSeries<LolMatch>.FromCsv("Data/lol.csv", ParseLol);
+
+            // --------------------------
+            // Filter
+            // --------------------------
+            Func<ValorantMatch, bool> isWin = m => m.Won;
+            Func<ValorantMatch, bool> isHighScore = m => m.Kills > 20;
+
+            // Combinaison : un nouveau prédicat (victoire éclatante) construit à partir des deux autres
+            Func<ValorantMatch, bool> isCrushingWin = m => isWin(m) && isHighScore(m);
+            var top = valorant.Filter(isCrushingWin);
+            Console.WriteLine($"Was the loaded valorant match a crushing win ? : {top != null}");
 
             // --------------------------
             // Handle flags
@@ -37,17 +48,17 @@ namespace S323_ESportApp_JonathanJunod
 
             if (hasFlag)
             {
-                //// --game
-                //if (args.Contains("--game"))
-                //{
-                //    game = args[Array.IndexOf(args, "--game") + 1].ToLower();
-                //}
-                //if (game == null || game == "valorant")
-                //    Console.WriteLine($"Valorant : {valorant.DataPoints.Count()} matchs");
-                //if (game == null || game == "cs2")
-                //    Console.WriteLine($"CS2      : {cs2.DataPoints.Count()} matchs");
-                //if (game == null || game == "lol")
-                //    Console.WriteLine($"LoL      : {lol.DataPoints.Count()} matchs");
+                // --game
+                if (args.Contains("--game"))
+                {
+                    game = args[Array.IndexOf(args, "--game") + 1].ToLower();
+                }
+                if (game == null || game == "valorant")
+                    Console.WriteLine($"Valorant : {valorant.DataPoints.Count()} matchs");
+                if (game == null || game == "cs2")
+                    Console.WriteLine($"CS2      : {cs2.DataPoints.Count()} matchs");
+                if (game == null || game == "lol")
+                    Console.WriteLine($"LoL      : {lol.DataPoints.Count()} matchs");
 
                 // --generate
                 if (args.Contains("--generate"))

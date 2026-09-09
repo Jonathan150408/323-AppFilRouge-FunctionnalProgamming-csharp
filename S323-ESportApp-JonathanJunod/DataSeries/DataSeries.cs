@@ -49,5 +49,8 @@ namespace DataSeries
         /// <returns></returns>
         public DataSeries<T> FilterByDate(Func<DateTime, bool> predicate)
             => new DataSeries<T>(_data.Where(dp => predicate(dp.Timestamp)));
+
+        public DataSeries<T> Filter(Func<T, bool> predicate) 
+            => new DataSeries<T>(_data.Where(dp => predicate(dp.Value)));
     }
 }
