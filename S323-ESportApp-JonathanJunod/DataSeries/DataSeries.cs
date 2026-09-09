@@ -71,5 +71,15 @@ namespace DataSeries
 
         public DataSeries<TResult> Transform<TResult>(Func<T, TResult> mapper)
             => DataSeries<TResult>.From(_data.Select(dp => new DataPoint<TResult>( dp.Timestamp, mapper(dp.Value))));
+
+        public List<double> Normalize()
+        {
+            var kda = this.Values.Cast<double>().ToList();
+            double min = kda.Min();
+            double max = kda.Max();
+
+            return kda.Select(v => (v - min) / (max - min)).ToList();
+        }
+
     }
 }

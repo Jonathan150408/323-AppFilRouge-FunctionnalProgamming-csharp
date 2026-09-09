@@ -88,11 +88,11 @@ namespace S323_ESportApp_JonathanJunod
                 .Filter(m => m.Player == "Noé")
                 .Transform(m => (m.Kills + m.Assists) / (double)(m.Deaths == 0 ? 1 : m.Deaths));
 
-            var kdaLeaNorm = Normalizer.Normalize(kdaLea);
-            var kdaDylanNorm = Normalizer.Normalize(kdaDylan);
-            var kdaRaphaelNorm = Normalizer.Normalize(kdaRaphael);
-            var kdaKiaraNorm = Normalizer.Normalize(kdaKiara);
-            var kdaNoeNorm = Normalizer.Normalize(kdaNoe);
+            var kdaLeaNorm = kdaLea.Normalize();
+            var kdaDylanNorm = kdaDylan.Normalize();
+            var kdaRaphaelNorm = kdaRaphael.Normalize();
+            var kdaKiaraNorm = kdaKiara.Normalize();
+            var kdaNoeNorm = kdaNoe.Normalize();
 
             // debug
             Console.WriteLine("Ratio KDA Léa : " + string.Join(", ", kdaLea.Values.Select(v => v.ToString("F1"))));
