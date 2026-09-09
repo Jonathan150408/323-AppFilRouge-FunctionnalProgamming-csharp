@@ -75,7 +75,7 @@ namespace S323_ESportApp_JonathanJunod
 
             if (args.Length == 0 || args.Contains("--help"))
             {
-                Console.WriteLine("Usage: EsportApp [--game valorant|cs2|lol] [--generate player|all]");
+                Console.WriteLine("Usage: EsportApp [--game valorant|cs2|lol|all] [--generate player|all]");
                 hasFlag = false;
             }
 
@@ -107,6 +107,30 @@ namespace S323_ESportApp_JonathanJunod
                         valorantMatches.Add(MatchGenerator.GenerateValorant(p, 10));
                     });
                 }
+
+
+                // --------------------------
+                // Autres flags (à revoir)
+                // --------------------------
+                // --player
+                string? player = args.Contains("--player")
+                    ? args[Array.IndexOf(args, "--player") + 1]
+                    : null;
+
+                // --filter
+                string filterMode = args.Contains("--filter")
+                    ? args[Array.IndexOf(args, "--filter") + 1]
+                    : "all";
+
+                // Table de prédicats — le mode CLI sélectionne une fonction
+                var filters = new Dictionary<string, Func<ValorantMatch, bool>>
+                {
+                    ["wins"] = m => m.Won,
+                    ["losses"] = m => !m.Won,
+                    ["all"] = m => true,
+                };
+
+                var result = valorant.Filter(filters[filterMode]);
 
             }
 
