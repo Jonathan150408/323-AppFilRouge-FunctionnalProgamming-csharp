@@ -52,5 +52,8 @@ namespace DataSeries
 
         public DataSeries<T> Filter(Func<T, bool> predicate) 
             => new DataSeries<T>(_data.Where(dp => predicate(dp.Value)));
+
+        public DataSeries<T> RemoveOutliers(Func<T, bool> isValid)
+            => Filter(isValid);
     }
 }

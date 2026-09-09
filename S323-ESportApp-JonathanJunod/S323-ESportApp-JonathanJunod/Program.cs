@@ -34,6 +34,30 @@ namespace S323_ESportApp_JonathanJunod
             Console.WriteLine($"Was the loaded valorant match a crushing win ? : {top != null}");
 
             // --------------------------
+            // Remove the liards / cheaters
+            // --------------------------
+            // Valorant : kills plausibles pour un match compétitif
+            var valorantValid = valorant.RemoveOutliers(m =>
+                m.Kills >= 0 && m.Kills <= 50 &&
+                m.Deaths >= 1 && m.Deaths <= 30 &&
+                m.Assists >= 0
+            );
+
+            // CS2 : contraintes similaires
+            var cs2Valid = cs2.RemoveOutliers(m =>
+                m.Kills + m.Assists <= 50 &&
+                m.Deaths >= 1
+            );
+
+            // LoL : le support a structurellement peu de kills
+            var lolValid = lol.RemoveOutliers(m =>
+                m.Kills <= 10 &&
+                m.Deaths >= 1 &&
+                m.Assists >= 0 &&
+                m.Cs >= 0
+            );
+
+            // --------------------------
             // Handle flags
             // --------------------------
             bool hasFlag = true;
@@ -54,11 +78,11 @@ namespace S323_ESportApp_JonathanJunod
                     game = args[Array.IndexOf(args, "--game") + 1].ToLower();
                 }
                 if (game == null || game == "valorant")
-                    Console.WriteLine($"Valorant : {valorant.DataPoints.Count()} matchs");
+                    Console.WriteLine($"Valorant : {valorantValid.DataPoints.Count()} matchs");
                 if (game == null || game == "cs2")
-                    Console.WriteLine($"CS2      : {cs2.DataPoints.Count()} matchs");
+                    Console.WriteLine($"CS2      : {cs2Valid.DataPoints.Count()} matchs");
                 if (game == null || game == "lol")
-                    Console.WriteLine($"LoL      : {lol.DataPoints.Count()} matchs");
+                    Console.WriteLine($"LoL      : {lolValid.DataPoints.Count()} matchs");
 
                 // --generate
                 if (args.Contains("--generate"))
