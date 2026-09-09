@@ -69,11 +69,34 @@ namespace S323_ESportApp_JonathanJunod
             // --------------------------
             // Compute KDA ratio for Lea
             // --------------------------
+            // valo players
             var kdaLea = valorant
                 .Filter(m => m.Player == "Léa")
                 .Transform(m => (m.Kills + m.Assists) / (double)(m.Deaths == 0 ? 1 : m.Deaths));
-            
-            Console.WriteLine("Ratio KDA Léa : " + string.Join(", ", kdaLea.Values.Select(v => v.ToString("F2"))));
+            var kdaDylan = valorant
+                .Filter(m => m.Player == "Dylan")
+                .Transform(m => (m.Kills + m.Assists) / (double)(m.Deaths == 0 ? 1 : m.Deaths));
+            //cs2 players
+            var kdaRaphael = cs2
+                .Filter(m => m.Player == "Raphaël")
+                .Transform(m => (m.Kills + m.Assists) / (double)(m.Deaths == 0 ? 1 : m.Deaths));
+            var kdaKiara = cs2
+                .Filter(m => m.Player == "Kiara")
+                .Transform(m => (m.Kills + m.Assists) / (double)(m.Deaths == 0 ? 1 : m.Deaths));
+            // lol players
+            var kdaNoe = lol
+                .Filter(m => m.Player == "Noé")
+                .Transform(m => (m.Kills + m.Assists) / (double)(m.Deaths == 0 ? 1 : m.Deaths));
+
+            var kdaLeaNorm = Normalizer.Normalize(kdaLea);
+            var kdaDylanNorm = Normalizer.Normalize(kdaDylan);
+            var kdaRaphaelNorm = Normalizer.Normalize(kdaRaphael);
+            var kdaKiaraNorm = Normalizer.Normalize(kdaKiara);
+            var kdaNoeNorm = Normalizer.Normalize(kdaNoe);
+
+            // debug
+            Console.WriteLine("Ratio KDA Léa : " + string.Join(", ", kdaLea.Values.Select(v => v.ToString("F1"))));
+            Console.WriteLine("Ratio KDA normalizé Léa : " + string.Join(", ", kdaLeaNorm.Select(v => v.ToString("F1"))));
 
             // --------------------------
             // Handle flags

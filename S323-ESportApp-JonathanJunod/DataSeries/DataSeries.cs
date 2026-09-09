@@ -6,6 +6,11 @@ using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
+// _data
+//    +--- DataPoint
+//             +----- TimeStamp
+//             +----- value
+//                      +---- Match(valo|Lol|Cs2)
 
 namespace DataSeries
 {
